@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+    nginx_odb2:
+        image: nginx:1.23.3-alpine
+        ports:
+            - 80:80
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+        networks:
+            - mynet
+    app:
+        build:
+            context: ./docker/app
+        volumes:
+            - ./:/var/www
+        networks:
+            - mynet
+        depends_on:
+            - mysql_db_x
+    mysql_db_x:
+        image: mysql:8.0
+        container_name: db_x
+        environment:
+            MYSQL_DATABASE: database_name
+            MYSQL_ALLOW_EMPTY_PASSWORD: true
+            MYSQL_USER: alex
+            MYSQL_PASSWORD: pass
+        ports:
+            - 3305:3306
+        volumes:
+            - ./docker/volume/mysql:/var/lib/mysql
+        networks:
+            - mynet
+#Docker Networks
+networks:
+    mynet:
+        driver: bridge
+#Volumes
+volumes:
+    mysqldata:
+        driver: local
