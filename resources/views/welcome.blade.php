@@ -10,8 +10,10 @@
 
 <body>
     <div x-data>
-        <button @click="alert('Hello World!')">Say Hi</button>
+        <button @click="alert('Hello World!')">Sayy Hi</button>
     </div>
+    @dump('sfdsfsf')
+    <a href="">counter</counter>
 </body >
 
 </html >
